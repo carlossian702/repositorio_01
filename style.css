@@ -1,0 +1,100 @@
+*{
+    margin: 0; /* elimina los margenes */
+    padding: 0; /* elimina los rellenos */
+    box-sizing: border-box; /* incluye padding y borde en el ancho y alto de los elementos */
+}
+
+/* variables con css seran definidos en root para un uso global */
+
+:root{
+    --index:calc(1vw + 1vh); /* define una variable que se adapta al tamano de la centana */
+    --transition: cubic-bezier(.1, .7, 0, 1); /* define una curva de transicion personalizada */
+}
+
+/* estilos del cuerpo */
+body{
+    background-color: #282a36; /*establece un fondo oscuro */
+}
+
+/* contenedor principal */
+.wrapper {
+    display: flex; /* utiliza flexbox para organizar el contenido de los elementos */
+    align-items: center; /* centrar de forma vertical */
+    justify-content: center; /* centrar de forma horizontal */
+    height: 100vh; /* altura completa */
+}
+
+/* contenedor de los elementos */
+
+.items{
+    display: flex;/*utiliza flexbox para organizar los elementos */
+    gap: 0.4rem; /* espacios entre elementos */
+    perspective: calc(var(--index)*35); /* aplica perspectiva para efectos 3D */
+}
+.item {
+    width: calc(var(--index)*3); /*ancho dinamico en la variable */
+    height: calc(var(--index)*12); /* alto dinamico en la variable */
+    background-color: #222; /* color de fondo de los elementos */
+    background-size: cover; /* asegura que la imagen de fondo cubra el elemento */
+    background-position: center; /* centra la imagen de fondo */
+    cursor: pointer; /* cambia el cursos al pasar sobre el elemento */
+    filter: grayscale(1) brightness(.5); /* aplica un filtro de escala de grises y brillo */
+    transition: transform 1.25s var(--transition), filter 3s var(--transition), width 1.25s var(--transition); /* define las transiciones para varios estilos */
+    will-change: transform, filter, rotateY width; /* avisar al navegador que propiedades cambiaran, optimizando el rendimiento */
+}
+
+/* crea un efecto visual */
+.item::before, .item::after{
+    content: ''; /* crea un vacio */
+    position: absolute; /* posiciona el elemento absoluto */
+    height: 100%; /* altura completa */
+    width: 20px; /* ancho fijo para elementos */
+    right: calc(var(--index)* -1); /* colocar elementos a la derecha del elemento */
+}
+/*posicionar a la izquierda */
+.item::after{
+    left: calc(var(--index)* -1); /* coloca los elementos a la derecha del elemento */
+}
+
+/*efectos al pasar el mouse */
+.items .item:hover {
+    filter: inherit; /* hereda el filtro original */
+    transform: translateZ(calc(var(--index) * 10))rotateY(35deg); /* coloca el elemento a la derecha */
+}
+
+/* efectos para los elementos a la izquierda del elemento hover */
+.items .item:has( + :hover){
+    filter: inherit; /* hereda el filtro original */
+    transform: translateZ(calc(var(--index) * 8.5)) rotateY(-35deg); /* mueve y rota el elemento a la izquierda */
+
+}   
+
+/* efectos para los elementos a la izquierda del elemento hover */
+.items .item:has( + * + :hover){
+    filter: inherit; /* hereda el filtro original */
+    transform: translateZ(calc(var(--index) * 5.6)) rotateY(-40deg); /* mueve y rota el elemento a la izquierda */
+
+}
+
+/* efectos para los elementos a la izquierda del elemento hover */
+.items .item:has( + * + * + :hover){
+    filter: inherit; /* hereda el filtro original */
+    transform: translateZ(calc(var(--index) * 2.5)) rotateY(-30deg); /* mueve y rota el elemento a la izquierda */
+
+}
+
+/* efectos para los elementos a la izquierda del elemento hover */
+.items .item:has( + * + * + * + :hover){
+    filter: inherit; /* hereda el filtro original */
+    transform: translateZ(calc(var(--index) * .6)) rotateY(-15deg); /* mueve y rota el elemento a la izquierda */
+
+}
+
+/* efectos para la activacion o enfoque de un elemento */
+.item .item:active, .items .item:focus {
+    width: 28vw; /*aumenta el ancho activado */
+    filter: inherit; /* hereda el filtro original */
+    z-index: 100; /*lleva un elemento al frente */
+    transform: translateZ(calc(var(--index) * 10)); /* mueve el elemento hacia adelante en el eje z */
+    margin: 0.45vw; /* anade margen de forma horizontal */
+}
